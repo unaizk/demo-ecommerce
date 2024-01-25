@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
+import { registerHelper } from '../helper/registerHelper.js';
 
 
 const authUser = asyncHandler(async(req,res) =>{
@@ -7,33 +8,24 @@ const authUser = asyncHandler(async(req,res) =>{
     res.status(200).json({message:'Auth User'})
 })
 
-const registerUser = asyncHandler(async(req,res) =>{
 
-    const {name, email, password} = req.body;
-
-    const userExist = await User.findOne({email : email});
-
-    if(userExist){
-        res.status(400);
-        throw new Error('User already exist')
+// When user Register
+const registerUser = asyncHandler(async (req, res) => {
+    const { name, email, password } = req.body;
+  
+    const result = await registerHelper(name, email, password);
+  
+    if (result.success) {
+      res.status(201).json({
+        _id: result.data._id,
+        name: result.data.name,
+        email: result.data.email,
+      });
+    } else {
+      res.status(400).json({ error: result.error || 'Invalid data' });
     }
-
-    const user = await User.create({
-        name,email,password
-    });
-
-    if(user){
-        res.status(201).json({
-            _id : user._id,
-            name : user.name,
-            email : user.email
-        })
-    }else{
-        res.status(400);
-        throw new Error('Invalid data')
-    }
-
-})
+  });
+  
 
 const logoutUser = asyncHandler(async(req,res) =>{
 
