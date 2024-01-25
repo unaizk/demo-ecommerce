@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler';
-import User from '../models/userModel.js';
-import { registerHelper } from '../helper/registerHelper.js';
+import { registerHelper } from '../userHelper/registerHelper.js';
+import generateToken from '../utils/generateToken.js';
 
 
 const authUser = asyncHandler(async(req,res) =>{
@@ -16,6 +16,8 @@ const registerUser = asyncHandler(async (req, res) => {
     const result = await registerHelper(name, email, password);
   
     if (result.success) {
+      const userId = result.data._id
+      generateToken(res,userId)
       res.status(201).json({
         _id: result.data._id,
         name: result.data.name,
