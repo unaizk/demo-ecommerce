@@ -6,13 +6,15 @@ import Header from './component/Header'
 import LoginScreen from './screens/LoginScren'
 import RegisterScreen from './screens/RegisterScreen'
 
+import CarouselComponent from './component/CarouselComponent'
+
 function App() {
 
 
   return (
     <>
     <Header />
-    <RegisterScreen />
+    <CarouselComponent />
     
     </>
   )
