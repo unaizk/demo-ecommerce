@@ -3,7 +3,7 @@ import SearchBar from './SearchBar'
 
 const Header = () => {
     return (
-        <div className="flex justify-around items-stretch pt-6">
+    <div className="flex justify-around items-stretch pt-3">
         <div className="flex items-center">
             <img className="w-24" src={'/logo.png'} alt="Company Logo" />
         </div>
