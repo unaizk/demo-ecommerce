@@ -8,7 +8,8 @@ router.post('/',registerUser)
 router.post('/auth', authUser)
 router.post('/logout',logoutUser)
 router.get('/profile',protect, getUserProfile);
-router.get('/listed-products',protect,getListedProducts)
+router.get('/listed-products',protect,getListedProducts);
+
 
 
 export default router;
