@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {  useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "../slices/usersApliSlice";
 import { setCredentials } from "../slices/authSlice";
+import Loader from "../component/Loader";
 import {toast} from 'react-toastify'
 
 const LoginScreen = () => {
@@ -79,6 +80,7 @@ const LoginScreen = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          {isLoading  && <Loader />}
           <div className="flex items-center justify-center w-full mb-6">
             <button className="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={submitHandler}>
               Login
