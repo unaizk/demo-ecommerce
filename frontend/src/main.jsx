@@ -15,6 +15,7 @@ import { AdminPrivateRouter } from './component/AdminPrivateRouter.jsx'
 import AdminLoginScreen from './screens/AdminLoginScreen.jsx'
 import AddProductScreen from './screens/AddProductScreen.jsx'
 import EditProductScreen from './screens/EditProductScreen.jsx'
+import AdminRegisterScreen from './screens/AdminRegisterScreen.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,6 +37,7 @@ const router = createBrowserRouter(
           <Route path="/admin/editProduct" element={<EditProductScreen />} />
       </Route>
       <Route path="/admin/login" element={<AdminLoginScreen />} />
+      <Route path="/admin/register" element={<AdminRegisterScreen />} />
       
     </Route>
   )

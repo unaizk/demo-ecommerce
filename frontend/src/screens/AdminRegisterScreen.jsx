@@ -2,49 +2,48 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import {  useDispatch, useSelector } from "react-redux";
-import { useRegisterMutation } from '../slices/usersApliSlice';
-import { setCredentials } from '../slices/authSlice';
+import { useAdminRegisterMutation } from '../slices/adminApiSlice';
+import { adminSetCredentials } from '../slices/adminAuthSlice';
 import Loader from '../component/Loader';
 import {toast} from 'react-toastify'
 
-const RegisterScreen = () => {
+const AdminRegisterScreen = () => {
+    const navigate = useNavigate()
+    const dispatch = useDispatch();
+    const [name,setName] =useState('')
+    const [email,setEmail] =useState('')
+    const [password,setPassword] =useState('')
+    const [confirmPassword,setConfirmPassword] =useState('')
+    const [key,setKey] = useState('')
 
-const navigate = useNavigate()
-const dispatch = useDispatch();
-const [name,setName] =useState('')
-const [email,setEmail] =useState('')
-const [password,setPassword] =useState('')
-const [confirmPassword,setConfirmPassword] =useState('')
+    const [adminRegister,{isLoading}] = useAdminRegisterMutation();
+    const {adminInfo} = useSelector((state) =>state.adminAuth)
 
-const [register,{isLoading}] = useRegisterMutation();
-const {userInfo} = useSelector((state)=>state.auth)
-
-useEffect(()=>{
-  if(userInfo){
-      navigate('/')
-  }
-},[navigate,userInfo])
+    useEffect(()=>{
+        if(adminInfo){
+            navigate('/admin')
+        }
+      },[navigate,adminInfo])
 
 
-const submitHandler = async()=>{
+      const submitHandler = async()=>{
   
-  if(password !== confirmPassword){
-      toast.error('Password do not match')
-  }else{
-      try {
-          const res = await register({name,email,password}).unwrap();
-          dispatch(setCredentials({...res}))
-          navigate('/')
-      } catch (err) {
-          toast.error(err?.data?.message || err.error );
+        if(password !== confirmPassword){
+            toast.error('Password do not match')
+        }else{
+            try {
+                const res = await adminRegister({name,email,password,key}).unwrap();
+                dispatch(adminSetCredentials({...res}))
+                navigate('/admin')
+            } catch (err) {
+                toast.error(err?.data?.message || err.error );
+            }
+        }
       }
-  }
-}
 
-
-  const handleLoginClick = () => {
-    navigate('/login');
-  };
+      const handleLoginClick = () => {
+        navigate('/admin/login');
+      };
   return (
     <div className="flex flex-col items-center mt-2 min-h-screen bg-gray-100">
     <div className="w-full max-w-lg mt-20">
@@ -116,6 +115,22 @@ const submitHandler = async()=>{
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
+        <div className="mb-6">
+          <label
+            htmlFor="key"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
+            Enter Key
+          </label>
+          <input
+            type="password"
+            id="key"
+            className="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Enter Key"
+            value={key}
+            onChange={(e) => setKey(e.target.value)}
+          />
+        </div>
         {isLoading  && <Loader />}
         <div className="flex items-center justify-center w-full mb-6">
           <button className="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={submitHandler} >
@@ -135,4 +150,4 @@ const submitHandler = async()=>{
   )
 }
 
-export default RegisterScreen
+export default AdminRegisterScreen
