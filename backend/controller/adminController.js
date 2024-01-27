@@ -157,10 +157,10 @@ const listProduct = asyncHandler(async (req, res) => {
 
 // Editing product
 const editProduct = asyncHandler(async (req, res) => {
-    const productId = req.params.productId;
-    const { name, category, description, price } = req.body;
+    
+    const {productId, name, category, description, price } = req.body;
 
-    console.log(name,category,description,price);
+    console.log(name,category,description,price,productId);
   
     // Check if productId is provided
     if (!productId) {

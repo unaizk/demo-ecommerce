@@ -36,7 +36,7 @@ router.post('/logout',logoutAdmin)
 router.post('/add-product', adminProtect ,upload.single('file'),addProduct)
 router.get('/unlist-product/:productId',adminProtect, unlistProduct)
 router.get('/list-product/:productId',adminProtect, listProduct)
-router.put('/edit-product/:productId',adminProtect,editProduct)
+router.put('/edit-product',adminProtect,editProduct)
 router.get('/getAll-products',adminProtect,getAllProduct)
 
 export default router;

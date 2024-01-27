@@ -11,7 +11,7 @@ const ProductList = () => {
   const [getProduct, { isLoading }] = useGetProductMutation();
   const [products, setProducts] = useState([]);
   const [refreshToggle, setRefreshToggle] = useState(false);
-
+  const navigate = useNavigate();
   const [listProducts] = useListProductMutation()
   const [unlistProducts] = useUnlistProductMutation()
 
@@ -52,7 +52,15 @@ const ProductList = () => {
     }
   }
 
-  const navigate = useNavigate();
+  
+
+  const navigateToEdit = (productId) => {
+    const productToEdit = products.find((product) => product._id === productId);
+    if (productToEdit) {
+      // Use the useNavigate hook to navigate to the edit page with the product details
+      navigate(`/admin/editProduct`, { state: { product: productToEdit } });
+    }
+  };
 
   return (
     <div className="overflow-x-auto shadow-md sm:rounded-lg pt-20">
@@ -96,7 +104,7 @@ const ProductList = () => {
                 <button
                   type="button"
                   className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  onClick={() => navigate("/admin/editProduct")}
+                  onClick={() => navigateToEdit(product._id)}
                 >
                   Edit
                 </button>
