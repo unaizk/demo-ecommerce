@@ -31,7 +31,13 @@ export const adminApiSlice = apiSlice.injectEndpoints({
                 body : data
             })
         }),
+        getProduct : builder.mutation({
+            query : ()=>({
+                url : `/api/admin/getAll-products`,
+                method : 'GET',
+            })
+        }),
     })
 })
 
-export const  {useAdminLoginMutation , useAdminLogoutMutation , useAdminRegisterMutation, useProductAddMutation } = adminApiSlice
+export const  {useAdminLoginMutation , useAdminLogoutMutation , useAdminRegisterMutation, useProductAddMutation , useGetProductMutation} = adminApiSlice
