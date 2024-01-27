@@ -3,13 +3,19 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGetProductMutation } from "../slices/adminApiSlice";
 import { toast } from "react-toastify";
+import { useUnlistProductMutation } from "../slices/adminApiSlice";
+import { useListProductMutation } from "../slices/adminApiSlice";
 import Loader from "./Loader";
 
 const ProductList = () => {
   const [getProduct, { isLoading }] = useGetProductMutation();
   const [products, setProducts] = useState([]);
+  const [refreshToggle, setRefreshToggle] = useState(false);
 
-  const PROFILE_IMAGE_DIR_PATH = 'http://localhost:5000/productImage/'
+  const [listProducts] = useListProductMutation()
+  const [unlistProducts] = useUnlistProductMutation()
+
+  const PROFILE_IMAGE_DIR_PATH = 'http://localhost:5000/productImage/';
 
   useEffect(() => {
     const getAllProduct = async () => {
@@ -22,11 +28,34 @@ const ProductList = () => {
     };
 
     getAllProduct();
-  }, []);
+  }, [refreshToggle,products]);
+
+  const listingProduct = async(productId) =>{
+   try {
+        await listProducts(productId).unwrap()
+        toast.success("Product Listed");
+        // Toggle the dummy state to trigger a re-render
+        setRefreshToggle(!refreshToggle);
+   } catch (err) {
+        toast.error(err?.data?.message || err.error);
+   }
+  }
+
+  const unlistingProduct = async(productId) =>{
+    try {
+        await unlistProducts(productId).unwrap()
+        toast.success("Product Unlisted");
+        // Toggle the dummy state to trigger a re-render
+        setRefreshToggle(!refreshToggle);
+    } catch (err) {
+        toast.error(err?.data?.message || err.error);
+    }
+  }
 
   const navigate = useNavigate();
+
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg pt-20">
+    <div className="overflow-x-auto shadow-md sm:rounded-lg pt-20">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
@@ -54,43 +83,48 @@ const ProductList = () => {
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => {
-            
-            return (
-                
-              <tr key={product._id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+          {products.map((product) => (
+            <tr key={product._id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+              <td className="px-6 py-4">
+                <img src={PROFILE_IMAGE_DIR_PATH + product.image} alt="Product" style={{ maxWidth: "50px" }} />
+              </td>
+              <td className="px-6 py-4">{product.name}</td>
+              <td className="px-6 py-4">{product.category}</td>
+              <td className="px-6 py-4">{product.description}</td>
+              <td className="px-6 py-4">{product.price}</td>
+              <td className="px-6 py-4">
+                <button
+                  type="button"
+                  className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  onClick={() => navigate("/admin/editProduct")}
                 >
-                  <img src={PROFILE_IMAGE_DIR_PATH + product.image} alt="Product" style={{ maxWidth: "50px" }} />
-                </th>
-                <td className="px-6 py-4">{product.name}</td>
-                <td className="px-6 py-4">{product.category}</td>
-                <td className="px-6 py-4">{product.description}</td>
-                <td className="px-6 py-4">{product.price}</td>
-
+                  Edit
+                </button>
+              </td>
+              {product.unlist ? (
                 <td className="px-6 py-4">
-                  <button
-                    type="button"
-                    className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    onClick={() => navigate("/admin/editProduct")}
-                  >
-                    Edit
-                  </button>
-                </td>
+                <button
+                  type="button"
+                  className="inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  onClick={() => listingProduct(product._id)}
+                >
+                  List
+                </button>
+              </td>
+              ) : (
                 <td className="px-6 py-4">
-                  <button
-                    type="button"
-                    className="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    onClick={() => {}}
-                  >
-                    List
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
+                <button
+                  type="button"
+                  className="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  onClick={() => unlistingProduct(product._id)}
+                >
+                  Unlist
+                </button>
+              </td>
+              )}
+              
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

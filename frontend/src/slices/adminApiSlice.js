@@ -37,7 +37,19 @@ export const adminApiSlice = apiSlice.injectEndpoints({
                 method : 'GET',
             })
         }),
+        unlistProduct : builder.mutation({
+            query : (productId)=>({
+                url : `/api/admin/unlist-product/${productId}`,
+                method : 'GET',
+            })
+        }),
+        listProduct : builder.mutation({
+            query : (productId)=>({
+                url : `/api/admin/list-product/${productId}`,
+                method : 'GET',
+            })
+        }),
     })
 })
 
-export const  {useAdminLoginMutation , useAdminLogoutMutation , useAdminRegisterMutation, useProductAddMutation , useGetProductMutation} = adminApiSlice
+export const  {useAdminLoginMutation , useAdminLogoutMutation , useAdminRegisterMutation, useProductAddMutation , useGetProductMutation, useUnlistProductMutation, useListProductMutation} = adminApiSlice
