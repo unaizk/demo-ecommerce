@@ -5,8 +5,8 @@ import './App.css'
 import Header from './component/Header'
 import LoginScreen from './screens/LoginScren'
 import RegisterScreen from './screens/RegisterScreen'
+import UserHomeScreen from './screens/UserHomeScreen'
 
-import CarouselComponent from './component/CarouselComponent'
 
 function App() {
 
@@ -14,7 +14,7 @@ function App() {
   return (
     <>
     <Header />
-    <CarouselComponent />
+    <UserHomeScreen />
     
     </>
   )
