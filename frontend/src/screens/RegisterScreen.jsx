@@ -79,7 +79,7 @@ const [confirmPassword,setConfirmPassword] =useState('')
           </label>
           <input
             type="password"
-            id="password"
+            id="confirmPassword"
             className="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             placeholder="Confirm Password"
             value={confirmPassword}

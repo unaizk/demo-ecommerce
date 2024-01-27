@@ -1,19 +1,42 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import {  useDispatch, useSelector } from "react-redux";
+import { useLoginMutation } from "../slices/usersApliSlice";
+import { setCredentials } from "../slices/authSlice";
 
 const LoginScreen = () => {
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
 
+  const [login, {isLoading}] = useLoginMutation()
+
+  const {userInfo} = useSelector((state) => state.auth)
 
   const handleRegisterClick = () => {
   
     navigate('/register');
   };
+
+  const submitHandler = async() =>{
+    try {
+        const res = await login({email,password}).unwrap()
+        dispatch(setCredentials({...res}));
+        navigate('/')
+    } catch (err) {
+      console.log(err?.data?.message || err.error);
+    }
+  }
+
+  useEffect(()=>{
+    if(userInfo){
+      navigate('/')
+    }
+  },[navigate,userInfo])
 
 
   return (
@@ -32,7 +55,7 @@ const LoginScreen = () => {
             </label>
             <input
               type="email"
-              id="mobileNumber"
+              id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
@@ -48,7 +71,7 @@ const LoginScreen = () => {
             </label>
             <input
               type="password"
-              id="mobileNumber"
+              id="password"
               className="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter Password"
               value={password}
@@ -56,7 +79,7 @@ const LoginScreen = () => {
             />
           </div>
           <div className="flex items-center justify-center w-full mb-6">
-            <button className="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <button className="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={submitHandler}>
               Login
             </button>
           </div>
