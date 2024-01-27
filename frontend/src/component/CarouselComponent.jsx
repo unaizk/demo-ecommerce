@@ -6,7 +6,7 @@ const CarouselComponent = () => {
   return (
     <Carousel className="rounded-sm ">
     <img
-      src={'/iphone xr.jpg'}
+      src={'/banner.png'}
       alt="image 1"
       className=" w-full "
       style={{ height: "500px" }}

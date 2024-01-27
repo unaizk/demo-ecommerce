@@ -24,7 +24,14 @@ export const adminApiSlice = apiSlice.injectEndpoints({
                 method : 'POST'
             })
         }),
+        productAdd : builder.mutation({
+            query : (data)=>({
+                url : `/api/admin/add-product`,
+                method : 'POST',
+                body : data
+            })
+        }),
     })
 })
 
-export const  {useAdminLoginMutation , useAdminLogoutMutation , useAdminRegisterMutation } = adminApiSlice
+export const  {useAdminLoginMutation , useAdminLogoutMutation , useAdminRegisterMutation, useProductAddMutation } = adminApiSlice
