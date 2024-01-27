@@ -2,7 +2,7 @@ import React from "react";
 
 const SearchBar = () => {
   return (
-    <div className="mt-5 xl:w-96 ">
+    <div className=" mt-5 xl:w-96 ">
       <div className="relative mb-4 flex w-full flex-wrap items-stretch">
       <input
         type="search"
