@@ -43,7 +43,7 @@ const Header = () => {
           <img src={'/Heart.png'} className="w-5 bg-gray-200" alt="" />
         </div>
         <div className="bg-gray-50 rounded-full p-3 mr-4 cursor-pointer">
-          <img src={'/cart.png'} className="w-5 bg-gray-200" alt="" />
+          <img onClick={() =>{navigate('/cart')}} src={'/cart.png'} className="w-5 bg-gray-200" alt="" />
         </div>
         <div className="bg-gray-50 rounded-full p-3 mr-4 cursor-pointer">
           {userInfo ? (
