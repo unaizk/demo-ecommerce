@@ -28,7 +28,7 @@ const Header = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row justify-around items-stretch pt-2 pb-2">
+    <div className="flex flex-col md:flex-row justify-around items-stretch pt-2 pb-2">
       <div className="flex items-center">
         <img onClick={() =>{navigate('/')}} className="w-24 cursor-pointer" src={'/logo.png'} alt="Company Logo" />
       </div>

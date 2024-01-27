@@ -10,6 +10,11 @@ import store from './store.js';
 import { PrivateRouter } from './component/PrivateRouter.jsx'
 import {Provider} from 'react-redux'
 import CartScreen from './screens/CartScreen.jsx'
+import AdminHomeScreen from './screens/AdminHomeScreen.jsx'
+import { AdminPrivateRouter } from './component/AdminPrivateRouter.jsx'
+import AdminLoginScreen from './screens/AdminLoginScreen.jsx'
+import AddProductScreen from './screens/AddProductScreen.jsx'
+import EditProductScreen from './screens/EditProductScreen.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +28,15 @@ const router = createBrowserRouter(
       <Route path="" element = {<PrivateRouter />}>
         <Route path="/cart" element={<CartScreen />} /> 
       </Route>
+
+      {/*================================= admin route handler========================================== */}
+      <Route path="" element = {<AdminPrivateRouter />}>
+          <Route index={true} path="/admin" element={<AdminHomeScreen />} />
+          <Route path="/admin/addProduct" element={<AddProductScreen />} />
+          <Route path="/admin/editProduct" element={<EditProductScreen />} />
+      </Route>
+      <Route path="/admin/login" element={<AdminLoginScreen />} />
+      
     </Route>
   )
 )
