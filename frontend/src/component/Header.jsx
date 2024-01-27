@@ -1,24 +1,36 @@
 import React from 'react';
 import SearchBar from './SearchBar';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLogoutMutation } from '../slices/usersApliSlice';
+import { logout } from '../slices/authSlice';
+
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const [logoutApiCall, {isLoading}] = useLogoutMutation()
   const { userInfo } = useSelector((state) => state.auth);
 
   const handleLoginClick = () => {
     navigate('/login');
   };
 
-  const handleLogoutClick = () => {
-    navigate('/logout');
+  const handleLogoutClick = async() => {
+    try {
+        await logoutApiCall().unwrap()
+        dispatch(logout())
+        navigate('/')
+    } catch (err) {
+        console.log(err);
+    }
+    
   };
 
   return (
     <div className="flex flex-col sm:flex-row justify-around items-stretch pt-2 pb-2">
       <div className="flex items-center">
-        <img className="w-24" src={'/logo.png'} alt="Company Logo" />
+        <img onClick={() =>{navigate('/')}} className="w-24 cursor-pointer" src={'/logo.png'} alt="Company Logo" />
       </div>
       <div className="sm:flex items-center">
         <SearchBar  />
