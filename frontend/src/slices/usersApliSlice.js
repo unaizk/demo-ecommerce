@@ -50,8 +50,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 body : data
             })
         }),
+        deletingProduct : builder.mutation({
+            query : (data)=>({
+                url : `${USER_URL}/delete-product`,
+                method : 'DELETE',
+                body : data
+            })
+        }),
     })
 })
 
 
-export const {useLoginMutation, useLogoutMutation, useRegisterMutation, useGetListedProductsMutation, useAddToCartMutation, useLoadingCartMutation, useChangingQuantityMutation} = userApiSlice
+export const {useLoginMutation, useLogoutMutation, useRegisterMutation, useGetListedProductsMutation, useAddToCartMutation, useLoadingCartMutation, useChangingQuantityMutation,useDeletingProductMutation} = userApiSlice

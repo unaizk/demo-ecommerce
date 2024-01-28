@@ -193,6 +193,30 @@ const changingQuantity = asyncHandler(async (req, res) => {
   }
 });
 
+const deleteProductFromCart = asyncHandler(async (req, res) => {
+  try {
+    const { productId } = req.body;
+    const userId = req.user._id;
+
+    //deleting products from cart
+    const updatedCart = await Cart.findOneAndUpdate(
+      { user_id: userId },
+      { $pull: { products: { productId } } },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedCart) {
+      return res.status(404).json({ error: "Product not found in the cart" });
+    }
+
+    return res.status(200).json({ message: "Product deleted from the cart" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
 export {
   authUser,
   registerUser,
@@ -202,4 +226,5 @@ export {
   addingToCart,
   getCartDetails,
   changingQuantity,
+  deleteProductFromCart
 };
