@@ -81,7 +81,7 @@ const ProductDetailPage = () => {
               128 GB
             </p>
 
-            <div className="mb-4">
+            <div className="mb-20">
               <p className="text-black font-bold mb-2">Storage:</p>
 
               <div className="flex gap-4">
@@ -107,6 +107,7 @@ const ProductDetailPage = () => {
                 
               </div>
             </div>
+            <hr className="my-6 border-t border-gray-300" />
             <button className="bg-black hover:bg-gray-800 text-white  py-2 px-4 rounded" onClick={() =>{addToCartHandler(productId)}}>
               ADD TO CART
             </button>

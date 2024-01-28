@@ -37,8 +37,14 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 body : data
             })
         }),
+        loadingCart : builder.mutation({
+            query : ()=>({
+                url : `${USER_URL}/cart-details`,
+                method : 'GET',
+            })
+        }),
     })
 })
 
 
-export const {useLoginMutation, useLogoutMutation, useRegisterMutation, useGetListedProductsMutation, useAddToCartMutation} = userApiSlice
+export const {useLoginMutation, useLogoutMutation, useRegisterMutation, useGetListedProductsMutation, useAddToCartMutation, useLoadingCartMutation} = userApiSlice

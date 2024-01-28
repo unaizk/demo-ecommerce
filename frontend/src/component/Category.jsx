@@ -4,8 +4,8 @@ const brands = ['/apple.png', '/realme.png', '/sony.png', '/mi.png', '/samsung.p
 
 const Category = () => {
   return (
-    <div className="container mx-auto py-4 mb-20">
-      <h1 className="text-xl font-bold mb-4">Top Brands</h1>
+    <div className="container mx-auto py-4 mb-20 ">
+      <h1 className="text-xl font-bold mb-4 ">Top Brands</h1>
       <hr className="mb-6" />
       <div className="container mx-auto px-4">
         <div className="flex justify-center">

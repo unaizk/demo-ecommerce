@@ -1,15 +1,51 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import { useLoadingCartMutation } from "../slices/usersApliSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const CartScreen = () => {
+  const [loadingCart] = useLoadingCartMutation();
+  const [productDetails, setProductDetails] = useState([]);
+  // const [subTotal, setSubtotal] = useState(0)
+  const navigate = useNavigate()
+
+  const PROFILE_IMAGE_DIR_PATH = "http://localhost:5000/productImage/";
+  useEffect(() => {
+    const getCartDetails = async () => {
+      try {
+        const res = await loadingCart().unwrap();
+        setProductDetails(res);
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
+    };
+
+    getCartDetails();
+  }, []);
+
+  // Function to calculate subtotal
+  const calculateSubtotal = () => {
+    let subtotal = 0;
+    if (productDetails.products) {
+      productDetails.products.forEach((product) => {
+        subtotal += product.productId.price * product.quantity;
+      });
+    }
+    return subtotal;
+  };
+
+  console.log('render');
   return (
+    
     <>
       <div className="flex bg-gray-100">
         <h1 className="text-2xl font-bold  mx-auto pt-10 pb-10 mt-5 mb-5">
           Cart
         </h1>
       </div>
-      <div className=" h-screen py-8 mt-20">
+      {productDetails.products ? (
+        <div className=" h-screen py-8 mt-20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="md:w-3/4">
@@ -29,34 +65,44 @@ const CartScreen = () => {
                   </thead>
 
                   <tbody>
-                    <tr>
-                      <td className="py-4">
-                        <div className="flex items-center">
-                          <img
-                            className="h-16 w-16 mr-4"
-                            src="https://via.placeholder.com/150"
-                            alt="Product image"
-                          />
-                          <span className="font-semibold text-sm">
-                            Product name
-                          </span>
-                        </div>
-                      </td>
-                      <td className="py-4">₹19.99</td>
-                      <td className="py-4">
-                        <div className="flex items-center">
-                          <button className="border rounded-md py-2 px-4 mr-2">
-                            -
-                          </button>
-                          <span className="text-center w-8">1</span>
-                          <button className="border rounded-md py-2 px-4 ml-2">
-                            +
-                          </button>
-                        </div>
-                      </td>
-                      <td className="py-4">₹19.99</td>
-                    </tr>
-                    {/* <!-- More product rows --> */}
+                    {productDetails.products
+                      ? productDetails.products.map((product) => (
+                          <tr key={product._id} className="border-b">
+                            <td className="py-4">
+                              <div className="flex items-center">
+                                <img
+                                  className="h-16 w-16 mr-4"
+                                  src={
+                                    PROFILE_IMAGE_DIR_PATH +
+                                    product.productId.image
+                                  }
+                                  alt={product.productId.name}
+                                />
+                                <span className="font-semibold text-sm">
+                                  {product.productId.name}
+                                </span>
+                              </div>
+                            </td>
+                            <td className="py-4">₹{product.productId.price}</td>
+                            <td className="py-4">
+                              <div className="flex items-center">
+                                <button className="border rounded-md py-2 px-4 mr-2">
+                                  -
+                                </button>
+                                <span className="text-center w-8">
+                                  {product.quantity}
+                                </span>
+                                <button className="border rounded-md py-2 px-4 ml-2">
+                                  +
+                                </button>
+                              </div>
+                            </td>
+                            <td className="py-4">
+                              ₹{product.productId.price * product.quantity}
+                            </td>
+                          </tr>
+                        ))
+                      : null}
                   </tbody>
                 </table>
                 <hr className="my-6 border-t border-gray-300" />
@@ -67,15 +113,15 @@ const CartScreen = () => {
                 <h2 className="text-lg font-semibold mb-4">Cart Totals</h2>
                 <div className="flex justify-between mb-2">
                   <span className="font-semibold text-sm">Subtotal</span>
-                  <span>₹19.99</span>
+                  <span>{calculateSubtotal()}</span>
                 </div>
 
                 <hr className="my-2" />
                 <div className="flex justify-between mb-2 pt-5">
                   <span className="font-semibold text-sm">Total</span>
-                  <span className="font-black text-xl">₹21.98</span>
+                  <span className="font-black text-xl">₹{calculateSubtotal()}</span>
                 </div>
-                <button className="bg-cyan-600 text-white py-2 px-4 text-xs transition duration-500 ease-in-out hover:bg-cyan-900  mt-4 w-full">
+                <button className="bg-cyan-600 text-white py-3 px-6 text-xs transition duration-500 ease-in-out hover:bg-cyan-900  mt-4 w-full">
                   PROCEED TO CHECKOUT
                 </button>
               </div>
@@ -83,6 +129,18 @@ const CartScreen = () => {
           </div>
         </div>
       </div>
+      ) : (
+        <div className="bg-white rounded-lg pt-20 p-8 text-center">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Your cart is empty</h2>
+        <p className="text-gray-600 mb-8">
+          Looks like you haven't added any products to your cart yet. Start shopping to fill it up!
+        </p>
+        <button className="bg-cyan-600 text-white py-3 px-6 text-xs transition duration-500 ease-in-out hover:bg-cyan-900  mt-4 w-ful" onClick={() =>{navigate('/')}}>
+          CONTINUE SHOPPING
+        </button>
+      </div>
+      )}
+      
     </>
   );
 };

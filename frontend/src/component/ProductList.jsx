@@ -28,7 +28,7 @@ const ProductList = () => {
     };
 
     getAllProduct();
-  }, [refreshToggle,products]);
+  }, [refreshToggle]);
 
   const listingProduct = async(productId) =>{
    try {

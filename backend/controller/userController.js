@@ -126,6 +126,36 @@ const addingToCart = asyncHandler(async(req,res) =>{
 })
 
 
+const getCartDetails =asyncHandler(async(req,res) =>{
+  try { 
+    const userId = req.user._id;
+
+    const cart = await Cart.findOne({ user_id: userId })
+      .populate({
+        path: 'products.productId', // Specifying the path to the 'productId' field in the 'products' array
+        model: 'Product', // Specifying the model to use for population (assuming 'Product' is the model name)
+        select: 'name price image', // Specifying the fields you want to select from the 'Product' model
+      })
+      .exec();
+
+      console.log(userId);
+
+      console.log(cart,'cart');
+
+      if(!cart){
+        throw new Error('There is no products in the cart')
+      }
+      
+      return res.status(200).json(cart);
+
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+})
+
+
 
 
 
@@ -136,5 +166,6 @@ export {
     logoutUser,
     getUserProfile,
     getListedProducts,
-    addingToCart
+    addingToCart,
+    getCartDetails
 }
