@@ -1,10 +1,20 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const ProductCard = ({ name, description, price, image }) => {
+const ProductCard = ({ _id,name, description, price, image, category }) => {
 
     const PROFILE_IMAGE_DIR_PATH = `http://localhost:5000/productImage/${image}`;
+
+    const navigate = useNavigate();
+
+    const navigateToProductDetailPage = () =>{
+        const productDetail = { _id,name, description, price, image, category}
+        // Use the useNavigate hook to navigate to the Product Detail page with the product details
+        navigate(`/productDetail`, { state: { product: productDetail } });
+        
+    }
     return (
-      <div className="lg:w-1/3 sm:w-full mb-8 lg:mb-0" style={{marginBottom : '30px'}}>
+      <div className="lg:w-1/3 sm:w-full mb-8 lg:mb-0" style={{marginBottom : '30px'}} onClick={() =>{navigateToProductDetailPage()}}>
         <div className="relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl mx-auto" style={{width : '350px'}}>
           <div className="relative mx-4 mt-4 overflow-hidden bg-white bg-clip-border rounded-xl h-60 lg:h-96">
             <img src={PROFILE_IMAGE_DIR_PATH} alt="card-image" className=" w-full h-full" />

@@ -21,7 +21,7 @@ const Products = () => {
     };
 
     getAllProduct();
-  },[products])
+  },[])
   
   return (
     <div className="pt-10 container mx-auto mb-20 ">
