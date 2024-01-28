@@ -24,8 +24,14 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 method : 'POST'
             })
         }),
+        getListedProducts : builder.mutation({
+            query : ()=>({
+                url : `${USER_URL}/listed-products`,
+                method : 'GET'
+            })
+        }),
     })
 })
 
 
-export const {useLoginMutation, useLogoutMutation, useRegisterMutation} = userApiSlice
+export const {useLoginMutation, useLogoutMutation, useRegisterMutation, useGetListedProductsMutation} = userApiSlice

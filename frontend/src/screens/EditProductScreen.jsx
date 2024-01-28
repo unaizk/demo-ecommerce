@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useEditProductMutation } from '../slices/adminApiSlice';
 import {toast} from 'react-toastify'
 
@@ -13,7 +13,7 @@ const EditProductScreen = () => {
 
     const [editProduct] = useEditProductMutation()
 
-    const IMAGE_URL = `http://localhost:5000/productImage/${product.image}`;
+    
 
     const [name, setName] = useState(product.name || '');
     const [category, setCategory] = useState(product.category || '');
@@ -21,10 +21,14 @@ const EditProductScreen = () => {
     const [price, setPrice] = useState(product.price || 0);
     const [image, setImage] = useState(product.image);
     const [productId, setProductId] = useState(product._id);
+    
+
+    const IMAGE_URL = `http://localhost:5000/productImage/${image}`;
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         setImage(file);
+       
     };
     
     const editSubmitHandle = async(e) =>{
@@ -38,6 +42,8 @@ const EditProductScreen = () => {
         }
 
     }
+
+    
 
   return (
     <div className="pt-20">
@@ -129,7 +135,7 @@ const EditProductScreen = () => {
         {IMAGE_URL && <img
             src={IMAGE_URL}
             alt="Product"
-            style={{ maxHeight: '50px' , marginLeft : "40px"}} // Set a maximum height if needed
+            style={{ maxHeight: '50px' , marginLeft : "40px"}} 
           />}
         <div className="md:w-1/3">
           <label
