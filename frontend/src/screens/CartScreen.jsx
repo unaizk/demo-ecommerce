@@ -3,12 +3,16 @@ import { useEffect, useState } from "react";
 import { useLoadingCartMutation } from "../slices/usersApliSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useChangingQuantityMutation } from "../slices/usersApliSlice";
 
 const CartScreen = () => {
   const [loadingCart] = useLoadingCartMutation();
   const [productDetails, setProductDetails] = useState([]);
+  const [refreshToggle, setRefreshToggle] = useState(false);
   // const [subTotal, setSubtotal] = useState(0)
   const navigate = useNavigate()
+
+  const [changeQuantity] = useChangingQuantityMutation()
 
   const PROFILE_IMAGE_DIR_PATH = "http://localhost:5000/productImage/";
   useEffect(() => {
@@ -22,7 +26,18 @@ const CartScreen = () => {
     };
 
     getCartDetails();
-  }, []);
+  }, [refreshToggle]);
+
+  const changeTheQuantity = async(count,productId) =>{
+    try {
+        await changeQuantity({count,productId}).unwrap();
+         // Toggle the dummy state to trigger a re-render
+         setRefreshToggle(!refreshToggle);
+
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  }
 
   // Function to calculate subtotal
   const calculateSubtotal = () => {
@@ -86,13 +101,13 @@ const CartScreen = () => {
                             <td className="py-4">₹{product.productId.price}</td>
                             <td className="py-4">
                               <div className="flex items-center">
-                                <button className="border rounded-md py-2 px-4 mr-2">
+                                <button className="border rounded-md py-2 px-4 mr-2" onClick={() =>{changeTheQuantity('-1',product.productId._id)}}>
                                   -
                                 </button>
                                 <span className="text-center w-8">
                                   {product.quantity}
                                 </span>
-                                <button className="border rounded-md py-2 px-4 ml-2">
+                                <button className="border rounded-md py-2 px-4 ml-2" onClick={() =>{changeTheQuantity('1',product.productId._id)}}>
                                   +
                                 </button>
                               </div>
