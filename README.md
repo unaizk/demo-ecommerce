@@ -1,4 +1,4 @@
-#DEMO E-commerce Project
+# DEMO E-commerce Project
 
 ## Overview
 
