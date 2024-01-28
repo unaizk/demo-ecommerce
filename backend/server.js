@@ -4,6 +4,7 @@ import userRoutes from './routes/userRoutes.js'
 import { notFound, errorHandler} from './middleware/errorMiddleware.js';
 import connectDB from './config/db.js';
 import cookieParser from 'cookie-parser';
+import cors from 'cors'
 import adminRoutes from './routes/adminRoutes.js'
 dotenv.config();
 
@@ -12,6 +13,11 @@ const port = process.env.PORT || 5000;
 
 const app = express();
 
+app.use(cors({
+    origin : ["https://demo-ecommerce.vercel.app"],
+    methods : ["POST","GET","PUT","DELETE"],
+    credentials : true
+}))
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
