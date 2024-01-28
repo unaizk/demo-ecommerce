@@ -152,7 +152,12 @@ const changingQuantity = asyncHandler(async (req, res) => {
   try {
     const { count, productId } = req.body;
 
-    const cart = await Cart.findOne({ "products.productId": productId });
+    const userId = req.user._id
+
+    const cart = await Cart.findOne({
+      user_id: userId,
+      "products.productId": productId,
+    });
 
     if (!cart) {
       return res.status(404).json({ error: "Product not found in the cart" });
