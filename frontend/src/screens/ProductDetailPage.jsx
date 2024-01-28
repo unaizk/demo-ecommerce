@@ -1,6 +1,8 @@
 import React from "react";
 import { useLocation } from 'react-router-dom';
 import { useState } from "react";
+import {toast} from 'react-toastify'
+import { useAddToCartMutation } from "../slices/usersApliSlice";
 
 const ProductDetailPage = () => {
 
@@ -9,6 +11,8 @@ const ProductDetailPage = () => {
     // Retrieve the product details from the location state
     const product = location.state?.product || {};
 
+    const [addToCart] = useAddToCartMutation();
+
     const [name, setName] = useState(product.name || '');
     const [category, setCategory] = useState(product.category || '');
     const [description, setDescription] = useState(product.description || '');
@@ -16,9 +20,18 @@ const ProductDetailPage = () => {
     const [image, setImage] = useState(product.image);
     const [productId, setProductId] = useState(product._id);
 
-    console.log(category);
-
     const IMAGE_URL = `http://localhost:5000/productImage/${image}`
+
+    const addToCartHandler = async(productId) =>{
+        console.log(productId,'product');
+        try {
+
+            await addToCart({productId}).unwrap()
+            toast.success("Product added to cart");
+        } catch (err) {
+            toast.error(err?.data?.message || err.error);
+        }
+    }
   
   return (
     <div className="container mx-auto p-4 pt-20 shadow-sm">
@@ -94,7 +107,7 @@ const ProductDetailPage = () => {
                 
               </div>
             </div>
-            <button className="bg-black hover:bg-gray-800 text-white  py-2 px-4 rounded">
+            <button className="bg-black hover:bg-gray-800 text-white  py-2 px-4 rounded" onClick={() =>{addToCartHandler(productId)}}>
               ADD TO CART
             </button>
             <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded ml-4">
