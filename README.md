@@ -27,7 +27,7 @@ This E-commerce project is a demonstration of a mini e-commerce platform with di
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/your-username/e-commerce-project.git](https://github.com/unaizk/demo-ecommerce.git)
+   git clone https://github.com/unaizk/demo-ecommerce.git
    ```
 
 2. Navigate to the frontend directory and install dependencies:
