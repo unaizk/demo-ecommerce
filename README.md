@@ -66,8 +66,8 @@ ADMIN_KEY=unique_admin_key
 
 ## API Documentation
 
-For detailed API documentation for Admin, please refer to the [API Documentation]([link-to-api-documentation](https://documenter.getpostman.com/view/29225438/2s9Yyqj3ML)).
+For detailed API documentation for Admin, please refer to the https://documenter.getpostman.com/view/29225438/2s9Yyqj3ML
 
-For detailed API documentation for User, please refer to the [API Documentation]([link-to-api-documentation](https://documenter.getpostman.com/view/29225438/2s9Yyqj3MS)).
+For detailed API documentation for User, please refer to the https://documenter.getpostman.com/view/29225438/2s9Yyqj3MS
 
 Feel free to explore and contribute to the project! If you have any questions, please refer to the API documentation.
