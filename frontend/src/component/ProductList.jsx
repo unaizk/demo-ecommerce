@@ -15,7 +15,7 @@ const ProductList = () => {
   const [listProducts] = useListProductMutation()
   const [unlistProducts] = useUnlistProductMutation()
 
-  const PROFILE_IMAGE_DIR_PATH = 'http://localhost:5000/productImage/';
+  const PROFILE_IMAGE_DIR_PATH = 'http://localhost:5000/';
 
   useEffect(() => {
     const getAllProduct = async () => {

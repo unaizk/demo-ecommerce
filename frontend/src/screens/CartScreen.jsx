@@ -20,7 +20,7 @@ const CartScreen = () => {
   const [loadingCart, { isLoading }] = useLoadingCartMutation();
   const [deletingProduct] = useDeletingProductMutation()
 
-  const PROFILE_IMAGE_DIR_PATH = "http://localhost:5000/productImage/";
+  const PROFILE_IMAGE_DIR_PATH = "http://localhost:5000/";
 
   useEffect(() => {
     const getCartDetails = async () => {
@@ -79,7 +79,7 @@ const CartScreen = () => {
       {isLoading ? (
         <Loader />
       ) : productDetails.products && productDetails.products.length > 0 ? (
-        <div className="h-screen py-8 mt-20">
+        <div className="h-screen py-8 mt-20" >
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="md:w-3/4">

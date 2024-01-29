@@ -23,7 +23,7 @@ const EditProductScreen = () => {
     const [productId, setProductId] = useState(product._id);
     
 
-    const IMAGE_URL = `http://localhost:5000/productImage/${image}`;
+    const IMAGE_URL = `http://localhost:5000/${image}`;
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
